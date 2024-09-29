@@ -1,76 +1,192 @@
+/* Text: do tasks and farm 100 ABA-coins, bro */
 .text-tasks {
-    text-align: center;
-    font-family: 'Creepster';
-    font-size: 17px;
-    color: #ffffff;
+  text-align: center;
+  font-family: 'Creepster', sans-serif;
+  font-size: clamp(10px, 1.5vh, 100px);
+  color: #ffffff;
+  margin: 6vh 2vw 0;
 }
 
-.text-tasks h1 {
-    margin-right: 3%;
-    margin-left: 3%;
-    margin-top: 10%;
+/* Ref code input container */
+.ref-code-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2vh auto;
+    padding: 1vh;
+    width: 80vw;
+    max-width: 500px;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+#ref-code-input {
+    flex: 1;
+    padding: clamp(5px, 1.5vh, 100px);
+    font-family: 'Creepster', sans-serif;
+    font-size: clamp(10px, 16px, 100px);
+    caret-color: #000000;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    margin-right: 3vw;
+    outline: none;
+    width: 40vw;
+    box-sizing: border-box;
+}
 
+#ref-code-input::placeholder {
+    color: #888;
+}
 
+#btn-ref-code-do-this {
+    background-color: #faff00;
+    color: #000000;
+    padding: 1.5vh 3vw;
+    font-family: 'Creepster', sans-serif;
+    border-radius: 50px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease-in-out;
+}
 
+#btn-ref-code-do-this:hover,
+#btn-ref-code-do-this:active {
+    background-color: rgb(191, 191, 0);
+}
 
-
-
+/* Scroll container */
 .scroll-container {
-    width: 100%;
-    height: 61%;
+    height: 54vh;
     overflow-y: auto;
-    overflow-x: hidden;
     border: 1px solid #faff00;
-    padding: 10px;
-    margin-top: 5%;
+    margin: 2vh 2vw 7vh;
+    padding-bottom: 1vh 1vh clamp(40px, 10vh, 100px);
+    z-index: 10000;
 }
 
 .scroll-content {
-    width: 100%;
-    height: 100%;
-    padding: 20px;
+    margin: 1vw;
+    min-height: 100%;
 }
 
 .window {
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    font-family: 'Creepster';
-    width: 90%;
-    height: 15%;
+    font-family: 'Creepster', sans-serif;
+    font-size: 12px;
+    height: 50px;
     background-color: #ffffff;
     border: 1px solid #faff00;
-    padding: 1%;
-    margin-bottom: 2%;
+    padding: 0.5vh;
+    margin-bottom: 1vh;
 }
-
-
 
 .window h2 {
-    margin-right: 10px;
-    margin-left: 3%;
+    margin: 0 1vw;
 }
 
-.window button {
+.window-btn {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 1%;
-    margin-left: 10px;
-    height: 100%;
-    width: 20%;
+    margin: 0 1vw;
+    height: 40px;
+    width: 15vw;
+    min-width: 70px;
     background-color: #faff00;
     color: #000000;
-    font-family: 'Creepster';
-    font-size: 20px;
-    border: none;
-    border-radius: 15%;
+    font-family: 'Creepster', sans-serif;
+    border: 1px solid #000000;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.window-btn:hover,
+.window-btn:active {
+    background-color: rgb(191, 191, 0);
+}
+
+/* Modal for ref */
+.invite-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.invite-modal-content {
+    background-color: #faff00;
+    margin: 15% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.close-invite-modal {
+    color: #aaa;
+    float: right;
+    font-size: clamp(40px, 5vh, 100px);
+    font-weight: bold;
     cursor: pointer;
 }
 
-.window button:hover {
+.close-invite-modal:hover,
+.close-invite-modal:focus {
+    color: #000000;
+}
+
+#share-referral, #copy-referral {
     background-color: #faff00;
+    color: #000000;
+    padding: 10px 20px;
+    margin: 10px 5px;
+    border: 1px solid #000000;
+    border-radius: 50px;
+    font-family: 'Creepster', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+#share-referral:hover, #copy-referral:hover,
+#share-referral:active, #copy-referral:active {
+    background-color: rgb(191, 191, 0);
+}
+
+.invite-modal-content p {
+    font-family: 'Creepster', sans-serif;
+    font-size: 18px;
+    margin: 15px 0;
+    color: #000000;
+}
+
+/* Notification of copied */
+#copy-notification {
+    position: absolute;
+    top: 2vh;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 1);
+    color: #faff00;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 3vh;
+    font-family: 'Creepster', sans-serif;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#copy-notification:not(.hidden) {
+    visibility: visible;
+    opacity: 1;
 }

@@ -2,42 +2,39 @@
 .wallet-text {
     text-align: center;
     font-family: 'Creepster';
-    font-size: 17px;
+    font-size: clamp(10px, 2vh, 50px);
     color: #ffffff;
 }
 
 .wallet-text h1 {
-    margin-right: 3%;
-    margin-left: 3%;
-    margin-top: 15%;
+    margin: clamp(20px, 10vh, 100px) 2vw 0vh 2vw;
 }
 
 
-/* text on wallet page: it's important, bro */
-.info-text {
-    text-align: center;
-    font-family: 'Creepster';
-    font-size: 17px;
-    color: #ffffff;
-}
-
-.info-text h2 {
-    margin-top: 3%;
-}
-
-
-/* button on wallet page: info */
-.info-button {
+/* for info */
+.info {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: clamp(1px, 3vw, 50px);
+    margin-top: clamp(20px, 4vh, 100px);
+}
+
+.info-text {
+    font-family: 'Creepster';
+    font-size: clamp(17px, 3vh, 50px);
+    color: #ffffff;
+    margin-left: 2vw;
+}
+
+.info-button {
+    width: auto;
+    height: clamp(27px, 5vh, 100px);
+    cursor: pointer;
 }
 
 .info-button img {
-    width: 30%;
-    max-width: 200px;
-    height: auto;
-    margin-top: 1%;
+    margin-right: 2vw;
 }
 
 /* modal-window in info */
@@ -60,7 +57,7 @@
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    border-radius: 10px;
+    border-radius: 50px;
     width: 80%;
     max-width: 400px;
 }
@@ -68,7 +65,7 @@
 .close-info {
     color: #aaa;
     float: right;
-    font-size: 28px;
+    font-size: clamp(40px, 5vh, 100px);
     font-weight: bold;
 }
 
@@ -79,9 +76,92 @@
     cursor: pointer;
 }
 
+.language-buttons-info {
+    display: flex;
+    justify-content: flex-start;
+    gap: clamp(3px, 1vw, 50px);
+    margin-bottom: 10px;
+}
 
-/* button to module-window on wallet page: connect wallet, bro */
-.modal-connect {
+.lang-button-info {
+    background-color: #faff00;
+    border: 2px solid #000000;
+    border-radius: 50px;
+    color: #000000;
+    font-family: 'Creepster';
+    font-size: clamp(15px, 2vh, 100px);
+    font-weight: bold;
+    padding: 1vh 3vw;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.lang-button-info:hover {
+    background-color: rgb(191, 191, 0);
+}
+
+
+/* connect walllet */
+.connect-wallet-button-wallet {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#connect-button-root-wallet {
+    padding: 1vh;
+    background-color: none;
+    border: 2px solid #ffffff;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Creepster';
+    font-size: 20px;
+    text-align: center;
+    margin: 6vh 2vw 1vh 2vw;
+}
+
+
+/* buttons on wallet page: withdraw this money, bro; history */
+.withdraw-history-button,
+.withdraw-money-button {
+    padding: clamp(15px, 2vh, 100px);
+    margin: 6vh 2vw 2vh 2vw;
+    background-color: #faff00;
+    color: #000000;
+    font-family: 'Creepster';
+    font-size: clamp(17px, 3vh, 100px);
+    width: 96vw;
+    border: 2px solid white;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.withdraw-history-button {
+    margin: 1vh 2vw clamp(40px, 10vh, 100px) 2vw
+}
+  
+.withdraw-history-button:hover,
+.withdraw-money-button:hover {
+    background-color: rgb(191, 191, 0);
+} 
+
+@media (hover: hover) {
+    withdraw-money-button:hover {
+        background-color: rgb(191, 191, 0)
+    }
+}
+
+@media (hover: none) {
+    withdraw-money-button:active {
+        background-color: rgb(191, 191, 0)
+    }
+}
+
+/* modal on wallet page: withdraw this money, bro; history */
+.withdraw-history-modal,
+.withdraw-money-modal {
     font-family: 'Creepster';
     font-size: 100%;
     text-align: center;
@@ -92,127 +172,144 @@
     bottom: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.7);
+    overflow: auto;
     z-index: 1;
  }
-  
-.modal-connect-content {
+
+.withdraw-history-modal-content,
+.withdraw-money-modal-content {
     border: 2px solid white;
-    border-radius: 10px;
+    border-radius: 50px;
     background-color: #faff00;
-    margin: 15% auto;
+    margin: 10vh auto;
     padding: 20px;
-    width: 80%;
-    max-width: 400px;
+    width: clamp(100px, 80%, 400px);
 }
 
-.connect-center-btn {
+.withdraw-history-close,
+.withdraw-money-close {
+    color: #aaa;
+    float: right;
+    font-size: clamp(40px, 5vh, 100px);
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.withdraw-history-close:hover,
+.withdraw-history-close:focus,
+.withdraw-money-close:hover,
+.withdraw-money-close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+#withdrawMoneyAmount {
+    flex: 1;
+    padding: clamp(5px, 1vh, 100px);
+    font-family: 'Creepster', sans-serif;
+    font-size: clamp(14px, 2vh, 100px);
+    caret-color: #000000;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    margin-right: 3vw;
+    outline: none;
+    width: 40vw;
+    box-sizing: border-box;
+}
+
+#withdrawMoneyAmount::placeholder {
+    color: #888;
+}
+
+/* .center-btn {
     display: block;
     margin: 0 auto;
-}
+} */
 
-.connect {
-    font-family: 'Creepster';
-    font-size: 80%;
-    text-align: center;
-    background-color: #faff00;
-
-}
-  
-.open-modal-connect-btn {
-    margin-left: 15%;
-    margin-top: 15%;
+.take-cash-button {
+    padding: clamp(5px, 1vh, 100px);
+    margin: 3vh 2vw clamp(1px, 1vh, 100px) 2vw;
     background-color: #faff00;
     color: #000000;
     font-family: 'Creepster';
-    font-size: 100%;
-    width: 72%;
-    height: 8%;
-    border: 2px solid white;
-    border-radius: 5px;
+    font-size: clamp(17px, 3vh, 100px);
+    border: 2px solid rgb(1, 0, 0);
+    border-radius: 50px;
     cursor: pointer;
 }
-  
-.open-modal-connect-btn:hover {
+
+.take-cash-button:hover {
     background-color: rgb(191, 191, 0);
 } 
 
 @media (hover: hover) {
-    open-modal-connect-btn:hover {
+    take-cash-button:hover {
         background-color: rgb(191, 191, 0)
     }
 }
 
 @media (hover: none) {
-    open-modal-connect-btn:active {
+    take-cash-button:active {
         background-color: rgb(191, 191, 0)
     }
 }
 
 
-/* button an module-window on wallet page: wiyhdraw this money, bro */
-.modal {
-    font-family: 'Creepster';
-    font-size: 100%;
-    text-align: center;
+.notification-timer-withdraw {
+    display:none; 
+    position: fixed; 
+    top: 10px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    background-color: rgba(0, 0, 0, 1); 
+    font-size: 2.5vh;
+    font-family: 'Creepster', sans-serif;
+    color: #faff00; 
+    padding: 10px; 
+    border-radius: 50px;
+}
+
+.withdraw-history-modal table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.withdraw-history-modal th, .withdraw-history-modal td {
+    padding: 8px;
+    text-align: left;
+}
+
+.withdraw-history-modal tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.withdraw-history-modal tr:last-child {
+    border-bottom: none;
+}
+
+
+/* notification for copy */
+.copy-notification {
     display: none;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 1;
- }
-  
-.modal-content {
-    border: 2px solid white;
-    border-radius: 10px;
-    background-color: #faff00;
-    margin: 15% auto;
-    padding: 20px;
-    width: 80%;
-    max-width: 400px;
-}
-
-.center-btn {
-    display: block;
-    margin: 0 auto;
-}
-
-.take-cash {
-    font-family: 'Creepster';
-    font-size: 80%;
+    position: absolute;
     text-align: center;
-    background-color: #faff00;
+    top: 2vh;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 1);
+    color: #faff00;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 2.5vh;
+    font-family: 'Creepster', sans-serif;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 1000;
+}
 
+.copy-notification:not(.hidden) {
+    visibility: visible;
+    opacity: 1;
 }
   
-.open-modal-btn {
-    margin-left: 15%;
-    margin-top: 5%;
-    background-color: #faff00;
-    color: #000000;
-    font-family: 'Creepster';
-    font-size: 100%;
-    width: 72%;
-    height: 8%;
-    border: 2px solid white;
-    border-radius: 5px;
-    cursor: pointer;
-}
-  
-.open-modal-btn:hover {
-    background-color: rgb(191, 191, 0);
-} 
-
-@media (hover: hover) {
-    open-modal-btn:hover {
-        background-color: rgb(191, 191, 0)
-    }
-}
-
-@media (hover: none) {
-    open-modal-btn:active {
-        background-color: rgb(191, 191, 0)
-    }
-}

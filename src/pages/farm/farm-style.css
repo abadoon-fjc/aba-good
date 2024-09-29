@@ -1,70 +1,76 @@
-/*text on farm.js: let's go to farm ABA-coins,bro*/
-.text-farm {
-  text-align: center;
-  font-family: 'Creepster';
-  font-size: 17px;
+/* for all */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Creepster', sans-serif;
   color: #ffffff;
-}
-
-.text-farm h1 {
-  margin-right: 3%;
-  margin-left: 3%;
-  margin-top: 10%;
-}
-
-
-/*score*/
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.header img {
-  width: 222px;
-  max-width: 222px;
-  height: auto;
-}
-
-.score {
-  color: #fff;
   text-align: center;
-  font-family: 'Creepster';
-  font-size: 44px;
-  font-weight: 800;
-  user-select: none;
-  margin-bottom: 20px;
-  margin-top: 3%;
 }
 
-
-/*coin*/
-.circle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+/* Loading screen */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 1);
+  z-index: 9999;
 }
 
-.circle img {
-  width: 70%;
-  max-width: 400px;
-  height: auto;
+.loading-screen .spinner img {
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  box-shadow: 0px 0px 16px 0px rgba(138, 143, 254, 0.05);
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-screen p {
+  font-size: 3vh;
+  color: #faff00;
+  margin-top: 2.5vh;
+  margin-left: 3vw;
+}
+
+/* Text farm: let's go to farm ABA-coins */
+.text-farm h1 {
+  margin: 7vh 2vw 2vh;
+  font-size: clamp(20px, 4vh, 100px);
+}
+
+/* Score */
+.score h2 {
+  font-size: clamp(30px, 5vh, 100px);
+  margin: 6vh 0 1vh 0;
+  user-select: none;
+}
+
+/* Coin */
+.coin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.coin img {
+  height: clamp(200px, 40vh, 1000px);
+  max-height: 400px;
+  border-radius: 50%;
+  box-shadow: 0 0 16px rgb(191, 191, 0);
   transition: transform 0.2s ease;
-  --tiltX: 0deg;
-  --tiltY: 0deg;
-  transform: rotateX(var(--tiltX)) rotateY(var(--tiltY));
+  transform: rotateX(var(--tiltX, 0deg)) rotateY(var(--tiltY, 0deg));
 }
 
 .plus-one {
   position: absolute;
-  font-family: 'Creepster';
-  text-shadow: 0px 0px 4px rgba(234, 182, 64, 0.25);
-  font-size: 44px;
-  font-weight: 800px;
-  background: linear-gradient(180deg, #000000 0%, #000000 100%);
+  font-size: 7vh;
+  text-shadow: 0 0 4px #faff00;
+  background: linear-gradient(180deg, rgb(191, 191, 0) 0%, rgb(191, 191, 0) 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -75,27 +81,22 @@
 
 @keyframes move-up {
   0% {
-    opacity: 1;
-    transform: translateY(0);
+      opacity: 1;
+      transform: translateY(0);
   }
-
   100% {
-    opacity: 0;
-    transform: translateY(-50px);
+      opacity: 0;
+      transform: translateY(-50px);
   }
 }
 
-
-/*today-amount*/
+/* Today amount */
 .today-amount {
   text-align: right;
-  font-family: 'Creepster';
-  font-size: 20px;
-  color: #ffffff;
+  font-size: clamp(20px, 3vh, 100px);
+  padding-bottom: clamp(40px, 10vh, 100px);
 }
 
 .today-amount h3 {
-  margin-right: 5%;
-  margin-left: 3%;
-  margin-top: 5%;
+  margin: 3vh 3vw 0;
 }

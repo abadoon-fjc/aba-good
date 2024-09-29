@@ -1,0 +1,73 @@
+<div class="header-menu">
+  <img src="../../assets/profile_full_w.png" alt="Profile" class="profile-image" onclick="location.href='../profile/profile.html';">
+  <button class="premium-button" id="premium-button">Press me, bro</button>
+  <button class="wallet-button" id="wallet-button" style="display: none;">Your wallet, bro</button>
+  <div id="timer" class="timer">00:00:00</div>
+</div>
+
+<div id="notification" class="notification">
+    <span class="notification-text">the end of telegram era</span>
+  </div>
+
+<div id="premiumModal" class="premium-modal">
+  <div class="premium-modal-content">
+    <span class="close-premium">&times;</span>
+    <div class="language-switcher">
+        <button id="lang-en" class="lang-button">en</button>
+        <button id="lang-ru" class="lang-button">ru</button>
+    </div>
+    <p id="modal-text" style="text-align: center;">read it, bro!</p>
+    <p id="modal-description" style="text-align: left; white-space: pre-wrap;">
+      Read to the end! 
+      In this window you can connect premium to your account!
+
+      Premium-functions:
+      1. Fast withdrawal - in 6 hours instead of 48
+      2. Updated application design
+      3. Free NFT after full listing
+      4. You will simply be a total handsome man!
+
+      How to get premium:
+      Connect your TON-wallet and press the «be a genius» button and go to your wallet to confirm the transaction! 
+      
+      You can become a genius (premium) as many times as you like, but it won't give you anything!)
+
+      (premium costs 0.2 TON ≈ 1$ + wallet commission = 0.002 TON ≈ 0.2$)
+    </p>
+    <p id="modal-thanks" style="text-align: center;">Thank you for your attention, I’m all done, bro!)</p>
+    <div class="wallet-container">
+      <div class="connect-wallet-button" id="connect-button-root"></div>
+      <button class="send-tx-button" id="send-tx">be a genius</button>
+    </div>
+  </div>
+</div>
+
+<div id="walletModal" class="wallet-modal">
+  <div class="wallet-modal-content">
+      <span class="close-wallet">&times;</span>
+      <div class="wallet-header">Wallet settings</div>
+      <div class="wallet-info">
+        <img id="HeaderWalletImage" class="header-wallet-image"></img>
+        <span id="HeaderWalletName" class="header-wallet-name"></span>
+      </div>
+      <div id="HeaderWalletAppVersion" class="header-wallet-app-version"></div>
+      <div id="HeaderWalletUrl" class="header-wallet-about"></div>
+      <div class="custom-wallet">
+        <select class="wallet-customs" id="lang-select">
+          <option>en</option>
+          <option>ru</option>
+        </select>
+        <select class="wallet-customs" id="theme-select">
+          <option>SYSTEM</option>
+          <option>LIGHT</option>
+          <option>DARK</option>
+        </select>
+        <select class="wallet-customs" id="border-radius-select">
+          <option>m</option>
+          <option>s</option>
+          <option>none</option>
+        </select>
+      </div>
+  </div>
+</div>
+

@@ -3,38 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="tasks-style.css" />
-    <link rel="stylesheet" href="../../elements/footer-menu/menu.css">
-    <link rel="stylesheet" href="../../elements/profile-icon/profile.css">
-    <link rel="stylesheet" href="../../elements/background/background-body.css">
+    <title>Tasks</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://unpkg.com/@tonconnect/ui@2.0.6/dist/tonconnect-ui.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="tasks-style.css" />
+    <link rel="stylesheet" href="../../elements/header-menu/header-menu.css">
+    <link rel="stylesheet" href="../../elements/footer-menu/menu.css">
+    <link rel="stylesheet" href="../../elements/background/background-body.css">
     <title>Tasks</title>
 </head>
 <body>
-    <div class = "profile">
-        <img src="../../assets/profile_full_w.png" alt="Image" onclick="goToProfile()">
-        <script>
-            function goToProfile() {
-                window.location.href = '../../pages/profile/profile.html';
-            }
-        </script>
-    </div>
+    <div id="header-menu-container"></div>
+    <script>
+      fetch('../../elements/header-menu/header-menu.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('header-menu-container').innerHTML = data;
+        });
+    </script>
+
     <div class="text-tasks">
-        <h1>you can do this tasks and farm aba-coins, bro</h1>
+        <h1>Do tasks and farm 100 ABA-coins, bro</h1>
     </div>
+
+    <div class="ref-code-container">
+        <input type="text" id="ref-code-input" placeholder="Ref-code here, bro">
+        <button id="btn-ref-code-do-this">Do this</button>
+    </div>
+
     <div class="scroll-container">
         <div class="scroll-content">
-            <div class="window">
+
+            <!-- <div class="window">
                 <h2>Subscribe to our tg, bro</h2>
-                <button onclick="window.location.href='https://t.me/ASupersharij';">LET'S GO</button>
-            </div>
+                <button class="window-btn" id="telegram-abadoon">LET'S GO</button>
+            </div> -->
+
             <div class="window">
-                <h2>thank you very much, bro</h2>
-                <button onclick="window.location.href='https://www.blackbox.ai';">LET'S GO</button>
+                <h2>invite your freinds, bro</h2>
+                <button class="window-btn" id="invite-friend">LET'S GO</button>
+                <div id="invite-modal" class="invite-modal">
+                    <div class="invite-modal-content">
+                        <span class="close-invite-modal">&times;</span>
+                        <br>
+                        <br>
+                        <p>
+                            Bro, you can share your ref-code with you friends and farm 100 ABA-coins!
+                            Your referral code:
+                        </p>
+                        <p id="referral-code"></p>
+                        <button id="share-referral">Share</button>
+                        <button id="copy-referral">Copy</button>
+                        <div id="copy-notification" class="hidden">Copied, bro!</div>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
+
+    <script src="tasks.js" defer></script>
+    <script src="./add-func/referral.js" defer></script>
+    <script src="../../elements/header-menu/header-menu.js" defer></script>
     <script src="../../elements/footer-menu/menu.js" defer></script>
-    <script src="../farm/farm.js" defer></script>
 </body>
 </html>

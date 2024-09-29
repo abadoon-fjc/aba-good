@@ -5,37 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Farm</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://unpkg.com/@tonconnect/ui@2.0.6/dist/tonconnect-ui.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="farm-style.css" />
-    <link rel="stylesheet" href="../../elements/footer-menu/menu.css">
-    <link rel="stylesheet" href="../../elements/profile-icon/profile.css">
     <link rel="stylesheet" href="../../elements/background/background-body.css">
+    <link rel="stylesheet" href="../../elements/header-menu/header-menu.css">
+    <link rel="stylesheet" href="../../elements/footer-menu/menu.css">
   </head>
   <body>
-    <div class="game">
-      <div class="profile">
-        <img src="../../assets/profile_full_w.png" alt="Image" onclick="goToProfile()">
-        <script>
-            function goToProfile() {
-                window.location.href = '../../pages/profile/profile.html';
-            }
-        </script>
+
+    <div id="loading-screen" class="loading-screen">
+      <div class="spinner">
+        <img src="../../assets/aba_circle.png" alt="loading">
       </div>
-      <div class="connect-button" id="connect-button-root"></div>
+      <p>I'm loading information about you, bro</p>
+    </div>
+
+    <div id="header-menu-container"></div>
+    <script>
+      fetch('../../elements/header-menu/header-menu.html')
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('header-menu-container').innerHTML = data;
+        });
+    </script>
+
+    <div class="game">
+
       <div class="text-farm">
           <h1>let's go to farm aba-coins, bro</h1>
       </div>
-      <div class="header">
-        <h2 class="score" id="score"></h2>
+
+      <div class="score">
+        <h2 id="score"></h2>
       </div>
-      <div class="circle">
-        <img id="circle" src="../../assets/coin.png" alt="coin" />
+
+      <div class="coin">
+        <img id="coin" src="../../assets/coin.png" alt="coin" />
       </div>
+
       <div class="today-amount">
         <h3 id="counter2">0/1000</h3>
       </div>
+
     </div>
+
     <script src="farm.js" defer></script>
+    <script src="../../elements/header-menu/header-menu.js" defer></script>
     <script src="../../elements/footer-menu/menu.js" defer></script>
   </body>
 </html>

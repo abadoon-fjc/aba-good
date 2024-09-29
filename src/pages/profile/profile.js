@@ -1,55 +1,38 @@
 window.Telegram.WebApp.ready();
 
-async function fetchCounter(username) {
+async function fetchUserData(userId) {
     try {
-        const response = await fetch(`https://bony-dot-timer.glitch.me/counter/${username}`);
+        const response = await fetch(`https://zircon-flax-garnet.glitch.me/user-data/${userId}`);
         if (response.ok) {
             const data = await response.json();
-            return data.counter || 0;
+            return {
+                status: data.status || "not a premium...",
+                counter: data.counter || 0,
+                totalClicks: data.totalClicks || 0,
+                wallet: data.wallet || "No wallet, bro",
+            };
         } else {
-            console.error('Failed to fetch counter:', response.statusText);
-            return 0;
+            console.error('Failed to fetch user data:', response.statusText);
+            return {
+                status: "some problems, bro",
+                counter: "some problems, bro",
+                totalClicks: "some problems, bro",
+                wallet: "some problems, bro",
+            };
         }
     } catch (error) {
-        console.error('Error fetching counter:', error);
-        return 0;
+        console.error('Error fetching user data:', error);
+        return {
+            status: "some problems, bro",
+            counter: "some problems, bro",
+            totalClicks: "some problems, bro",
+            wallet: "some problems, bro",
+        };
     }
 }
 
-async function fetchTotalAmount(username) {
-    try {
-        const response = await fetch(`https://bony-dot-timer.glitch.me/total-clicks/${username}`);
-        if (response.ok) {
-            const data = await response.json();
-            return data.totalClicks || 0;
-        } else {
-            console.error('Failed to fetch total amount:', response.statusText);
-            return 0;
-        }
-    } catch (error) {
-        console.error('Error fetching total amount:', error);
-        return 0;
-    }
-}
-
-async function fetchWalletAddress(username) {
-    try {
-        const response = await fetch(`https://bony-dot-timer.glitch.me/wallet-address/${username}`);
-        if (response.ok) {
-            const data = await response.json();
-            return data.walletAddress || "No wallet address, bro";
-        } else {
-            console.error('Failed to fetch wallet address:', response.statusText);
-            return "Error fetching wallet address";
-        }
-    } catch (error) {
-        console.error('Error fetching wallet address:', error);
-        return "Error fetching wallet address";
-    }
-}
-
-function copyWalletAddress(walletAddress) {
-    navigator.clipboard.writeText(walletAddress).then(() => {
+function copyWallet(wallet) {
+    navigator.clipboard.writeText(wallet).then(() => {
         const notification = document.getElementById('copy-notification');
         notification.classList.remove('hidden');
         setTimeout(() => {
@@ -67,15 +50,10 @@ async function displayUserInfo() {
             return;
         }
 
-        // Fetching the wallet address, counter, and total amount
-        const [walletAddress, counter, totalAmount] = await Promise.all([
-            fetchWalletAddress(user.username),
-            fetchCounter(user.username),
-            fetchTotalAmount(user.username)
-        ]);
+        const { status, counter, totalClicks, wallet } = await fetchUserData(String(user.id));
 
         const profileHTML = `
-            <img src="${user.photo_url || '../../assets/aba_circle.png'}" alt="User Image" class="profile-image">
+            <img src="${user.photo_url || '../../assets/aba_circle.png'}" alt="User Image" class="stub-image">
             <ul class="user-details">
                 <li>
                     <strong></strong> ${
@@ -88,10 +66,11 @@ async function displayUserInfo() {
                         : "you are noname, bro"
                     }
                 </li>
-                <li><strong></strong> @${user.username || "you haven't username, bro"}</li>
-                <li><strong>you can cash now:</strong> ${counter}</li>
-                <li><strong>total score:</strong> ${totalAmount}</li>
-                <li><strong>wallet address:</strong> <span class="wallet-address-info" onclick="copyWalletAddress('${walletAddress}')">${walletAddress}</span></li>
+                <li><strong></strong> @${user.username || "you are noname, bro"}</li>
+                <li><strong>Status:</strong> ${status}</li>
+                <li><strong>You can cash now:</strong> ${counter}</li>
+                <li><strong>Total score:</strong> ${totalClicks}</li>
+                <li><strong>Wallet:</strong> <span class="wallet-address-info" onclick="copyWallet('${wallet}')">${wallet}</span></li>
             </ul>
             <div id="copy-notification" class="hidden">Copied, bro!</div>
         `;

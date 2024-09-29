@@ -1,0 +1,230 @@
+/* for all */
+.header-menu {
+    display: flex;
+    align-items: center;
+    padding: 1vh;
+}
+
+/* profile-icon */
+.profile-image {
+    width: clamp(100px, 40vw, 222px);
+    height: auto;
+}
+
+/* button "Press me, bro" */
+.wallet-button,
+.premium-button {
+    font-family: 'Creepster';
+    background-color: #faff00;
+    color: #000000;
+    padding: 10px 10px;
+    border: 2px solid white;
+    border-radius: 50px;
+    margin-left: auto;
+    width: 25vw;
+    height: 50px;
+    font-size: auto;
+    transition: background-color 0.3s;
+}
+
+.wallet-button:hover,
+.premium-button:hover {
+    background-color: rgb(191, 191, 0);
+}
+
+/* modal-window for premium */
+.wallet-modal,
+.premium-modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.wallet-modal-content,
+.premium-modal-content {
+    font-family: 'Creepster';
+    background-color: #faff00;
+    color: #000000;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 50px;
+    width: 70vw;
+    max-width: 500px;
+}
+
+/* modal-window for wallet */
+.wallet-header {
+    font-family: 'Creepster';
+    font-size: clamp(20px, 4vh, 222px);
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.wallet-info {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.header-wallet-image {
+    height: clamp(20px, 4vh, 100px);
+    width: auto;
+    border-radius: 10px;
+}
+
+.header-wallet-name {
+    font-family: 'Creepster';
+    font-size: clamp(20px, 3vh, 50px);
+    margin-left: 2vw;
+}
+
+.header-user-device,
+.header-wallet-app-version,
+.header-wallet-about {
+    font-family: 'Creepster';
+    font-size: clamp(15px, 2vh, 50px);
+    margin: 2vh 2vw;
+}
+
+.custom-wallet {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(0px, 2vw, 50px);
+    margin: 20px 0;
+}
+
+.wallet-customs {
+    font-family: 'Creepster';
+    background-color: #faff00;
+    border: 2px solid #000000;
+    border-radius: 50px;
+    padding: 5px;
+    font-size: clamp(15px, 2vh, 50px);
+}
+
+
+/* language switch */
+.language-switcher {
+    display: flex;
+    justify-content: left;
+    margin-bottom: 1vh;
+}
+
+.lang-button {
+    background-color: #faff00;
+    border: 2px solid #000000;
+    border-radius: 50px;
+    color: #000000;
+    font-family: 'Creepster';
+    font-size: clamp(15px, 2vh, 100px);
+    font-weight: bold;
+    margin: 0 5px;
+    padding: 1vh 3vw;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.lang-button:hover {
+    background-color: rgb(191, 191, 0);
+    color: #000;
+}
+
+/* close modal window */
+.close-wallet,
+.close-premium {
+    color: #aaa;
+    float: right;
+    font-size: clamp(40px, 5vh, 100px);
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.close-wallet:hover,
+.close-wallet:focus,
+.close-premium:hover,
+.close-premium:focus {
+    color: black;
+    text-decoration: none;
+}
+
+/* tonconnect */
+.wallet-container {
+    display: flex;
+}
+
+.connect-wallet-button {
+    margin-top: 3vh;
+    margin-left: 5vw;
+}
+
+.send-tx-button {
+    margin-top: 3vh;
+    margin-left: auto;
+    margin-right: 5vw;
+    background-color: #faff00;
+    border-radius: 50px;
+    border: 2px solid rgb(0, 0, 0);
+    color: #000000;
+    font-family: 'Creepster';
+    font-size: auto; /* Adjust this as needed */
+    transition: background-color 0.3s;
+}
+
+.send-tx-button:hover {
+    background-color: rgb(191, 191, 0);
+}
+
+/* timer */
+.timer {
+    font-family: 'Creepster';
+    font-size: clamp(10px, 5vw, 40px);
+    color: #fff;
+    margin-left: auto;
+    margin-right: 2vw;
+}
+
+/* notification for timer */
+.notification {
+    display: none;
+    position: fixed;
+    font-family: 'Creepster';
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: #faff00;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 50px;
+    text-align: center;
+    z-index: 1000;
+}
+
+.notification.red-text .notification-text {
+    color: red;
+}
+
+
+@media (hover: hover) {
+    .premium-button:hover,
+    .lang-button:hover,
+    .send-tx-button:hover {
+        background-color: rgb(191, 191, 0);
+    }
+}
+
+@media (hover: none) {
+    .premium-button:active,
+    .lang-button:active,
+    .send-tx-button:active {
+        background-color: rgb(191, 191, 0);
+    }
+}

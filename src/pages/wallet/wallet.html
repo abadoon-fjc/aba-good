@@ -1,94 +1,92 @@
 <!DOCTYPE html>
     <html lang="en">
     <head>
-        <script src="https://telegram.org/js/telegram-web-app.js"></script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <link rel="stylesheet" href="wallet-style.css" />
-        <link rel="stylesheet" href="../../elements/footer-menu/menu.css">
-        <link rel="stylesheet" href="../../elements/profile-icon/profile.css">
-        <link rel="stylesheet" href="../../elements/background/background-body.css">
-        <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
-        <script src="https://unpkg.com/@tonconnect/ui@2.0.6/dist/tonconnect-ui.min.js"></script>
+        <title>Wallet</title>
+        <script src="https://telegram.org/js/telegram-web-app.js"></script>
+        <script src="https://unpkg.com/@tonconnect/ui@2.0.6/dist/tonconnect-ui.min.js"></script>    
         <script src="https://cdn.jsdelivr.net/npm/tonweb@latest/dist/tonweb.min.js"></script>
-        <title>Document</title>
+        <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="wallet-style.css" />
+        <link rel="stylesheet" href="../../elements/background/background-body.css">
+        <link rel="stylesheet" href="../../elements/header-menu/header-menu.css">
+        <link rel="stylesheet" href="../../elements/footer-menu/menu.css">
     </head>
     <body>
-        <div class="profile">
-            <img src="../../assets/profile_full_w.png" alt="Image" onclick="goToProfile()">
-            <script>
-                function goToProfile() {
-                window.location.href = '../../pages/profile/profile.html';
-            }
-            </script>
-        </div>
+        <div id="header-menu-container"></div>
+        <script>
+            fetch('../../elements/header-menu/header-menu.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-menu-container').innerHTML = data;
+            });
+        </script>
+
         <div class="wallet-text">
             <h1>you can farm real money, bro</h1>
         </div>
-        <div class="info-text">
-            <h2>it's important, bro:</h1>
+
+        <div class="info">
+            <div class="info-text">it's important, bro:</div>
+            <img class="info-button" id="info-button" src="../../assets/info_full.png" alt="info">
         </div>
-        <div class="info-button" >
-            <img id="info-button" src="../../assets/info_full.png" alt="info">
-        </div>
-        <!-- modal-window for "info" -->
+
         <div id="infoModal" class="modal-info">
             <div class="modal-info-content">
-            <span class="close-info">&times;</span>
-            <p style="text-align: center;">Here's the important information, bro! Please read it, bro!</p>
-            <p style="text-align: left; white-space: pre-wrap;">
-                First of all, you can connect your wallet, but only Tonkeeper. Click the «connect» button and wait for notification of a successful connection. After this, you can change your wallet address as many times as you like. I need this so that if something happens, I can give you the coins that you didn’t have time to withdraw!)
-                When you open the «Withdraw money» form to receive ABA-coins, you will see 3 fields: «How many», «Wallet name», «Wallet address».
-                In the «How many» field you must indicate how many coins you want to withdraw, but you will not be able to withdraw more than you earned.
-                The «Wallet name» field is already set to «Tonkeeper», which cannot be corrected, so if you don’t have a Tonkeeper account yet, then create one!
-                But in the field: «Wallet address», be careful! Enter the correct wallet address and double-check it! If you indicated the wrong address, then the coins will no longer be returned!
-                And now the most important part! After clicking the button «Take cash», you must wait for one notification and only then close the form window! And wait for ABA-coins in your wallet within 24 hours </p>
-            <p style="text-align: center;">Thank you for your attention, I’m all done, bro!)</p>
+                <span class="close-info">&times;</span>
+                <div class="language-buttons-info">
+                    <button id="en-btn-info" class="lang-button-info">EN</button>
+                    <button id="ru-btn-info" class="lang-button-info">RU</button>
+                </div>                
+                <p id="modal-content-info" style="text-align: center;"></p>
+                <p id="modal-text-info" style="text-align: left; white-space: pre-wrap;"></p>
+                <p id="modal-thanks-info" style="text-align: center;"></p>
             </div>
         </div>
 
-        <!-- button for "connect wallet, bro" -->
-        <button class="open-modal-connect-btn" id="openNewModalButton">Connect wallet, bro</button>
-        <!-- modal-window for "connect wallet, bro" -->
-        <div id="newModal" class="modal-connect">
-            <div class="modal-connect-content">
-                <span class="close-new">&times;</span>
-                <h1>New Modal Window</h1>
-                <form id="newWalletForm">
-                    <label for="new-wallet">wallet name:</label>
-                    <input type="text" id="new-wallet" name="wallet" value="Tonkeeper" readonly required><br><br>
-
-                    <label for="new-wallet-address">wallet address:</label>
-                    <input type="text" id="new-wallet-address" name="wallet-address" required><br><br>
-
-                    <button class="connect" type="button" id="submitNewDataButton">connect</button>
+        <div id="connect-button-root-wallet" class="connect-wallet-button-wallet"></div>
+        
+        <button class="withdraw-money-button" id="withdrawMoneyButton">Withdraw this money, bro</button>
+        <div id="withdrawMoneyModal" class="withdraw-money-modal">
+            <div class="withdraw-money-modal-content">
+                <span class="withdraw-money-close">&times;</span>
+                <h1>Fill and farm, bro</h1>
+                <form id="withdrawMoneyForm">
+                    <label for="withdrawMoneyAmount">How many:</label>
+                    <input type="number" id="withdrawMoneyAmount" name="withdrawMoneyAmount" required min="1" placeholder="amount, bro"><br><br>
+                    <button class="take-cash-button" type="button" id="takeCashButton">Take cash, bro</button>
+                    <p id="message" style="color: red;"></p>
                 </form>
             </div>
         </div>
 
-        <!-- button for "withdraw this money, bro" -->
-        <button class="open-modal-btn" id="openModalButton">withdraw this money, bro</button>
-        <!-- modal-window for "withdraw this money, bro" -->
-        <div id="myModal" class="modal">
-            <div class="modal-content">
-            <span class="close">&times;</span>
-            <h1>fill out the form and get this money, bro</h1>
-            <form id="walletForm">
-                <label for="amount">how many:</label>
-                <input type="number" id="amount" name="amount" required><br><br>
-
-                <label for="wallet">wallet name:</label>
-                <input type="text" id="wallet" name="wallet" value="Tonkeeper" readonly required><br><br>
-
-                <label for="wallet-address">wallet address:</label>
-                <input type="text" id="wallet-address" name="wallet-address" required><br><br>
-
-                <button class="take-cash" type="button" id="submitButton">take cash, bro</button>
-            </form>
-            </div>
+        <!-- Уведомление -->
+        <div id="countdownNotification" class="notification-timer-withdraw">
+            A little patience, bro!
         </div>
 
-        <script src="../../elements/footer-menu/menu.js" defer></script>
+        <button class="withdraw-history-button" id="withdrawHistoryButton">Your withdrawals, bro</button>
+        <div id="withdrawHistoryModal" class="withdraw-history-modal">
+            <div class="withdraw-history-modal-content">
+                <span class="withdraw-history-close">&times;</span>
+                <h1>Withdrawal History</h1>
+                <table id="withdrawHistoryTable">
+                    <thead>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="copyNotification" class="copy-notification">Transaction ID copied!</div>
+        
         <script src="./wallet.js" defer></script>
+        <script src="../../elements/header-menu/header-menu.js" defer></script>
+        <script src="../../elements/footer-menu/menu.js" defer></script>
     </body>
 </html>

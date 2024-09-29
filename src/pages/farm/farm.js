@@ -1,199 +1,182 @@
-const $circle = document.querySelector('#circle');
+const $coin = document.querySelector('#coin');
 const $score = document.querySelector('#score');
 const $counter2 = document.querySelector('#counter2');
+const $loadingScreen = document.querySelector('#loading-screen');
 
 const user = Telegram.WebApp ? Telegram.WebApp.initDataUnsafe.user : null;
-const username = user ? user.username || 'unknown' : 'unknown';
+const userId = user ? user.id : 'unknown';
 
 
 let dailyLimit = 1000;
+let clickBuffer = {
+    score: getScore(),
+    dailyClicks: getDailyClicks(),
+    totalClicks: getTotalClicks(),
+};
 
+let timeoutId = null;
+
+function fetchUserDataFarm() {
+    return fetch(`https://zircon-flax-garnet.glitch.me/user-data-farm/${userId}`)
+        .then((response) => response.json())
+        .then((data) => {
+            const { counter, dailyClicks, totalClicks, status } = data;
+
+            if (status === 'premium') {
+                $coin.src = '../../assets/coin-premium.png';
+            } else {
+                $coin.src = '../../assets/coin.png';
+            }
+
+            clickBuffer.score = counter;
+            setScore(counter);
+
+            clickBuffer.dailyClicks = dailyClicks;
+            setDailyClicks(dailyClicks);
+
+            clickBuffer.totalClicks = totalClicks;
+            setTotalClicks(totalClicks);
+
+            updateCounter2();
+        })
+        .catch((error) => {
+            console.error('Error fetching user data:', error);
+        });
+}
 
 function start() {
-  fetchCounter();
-  fetchDailyClicks();
-  fetchTotalClicks();
+    fetchUserDataFarm().then(() => {
+        addNameToDatabase();
+        $loadingScreen.style.display = 'none';
+    }).catch((error) => {
+        console.error('Error during data loading:', error);
+        $loadingScreen.style.display = 'none';
+    });
 }
 
 function setScore(score) {
-  localStorage.setItem('score', score);
-  $score.textContent = score;
-  updateCounter(score);
+    clickBuffer.score = score;
+    localStorage.setItem('score', score);
+    $score.textContent = score;
+    updateCounter2();
 }
 
 function getScore() {
-  return Number(localStorage.getItem('score')) || 0;
+    return Number(localStorage.getItem('score')) || 0;
 }
 
 function addOne() {
-  const currentDailyClicks = getDailyClicks();
-  const currentTotalClicks = getTotalClicks();
-  if (currentDailyClicks < dailyLimit) {
-    setScore(getScore() + 1);
-    setDailyClicks(currentDailyClicks + 1);
-    setTotalClicks(currentTotalClicks + 1);
-  }
+    if (clickBuffer.dailyClicks < dailyLimit) {
+        clickBuffer.score += 1;
+        clickBuffer.dailyClicks += 1;
+        clickBuffer.totalClicks += 1;
+        setScore(clickBuffer.score);
+        setDailyClicks(clickBuffer.dailyClicks);
+        setTotalClicks(clickBuffer.totalClicks);
+    }
 }
 
-$circle.addEventListener('click', (event) => {
-  if (getDailyClicks() >= dailyLimit) {
-    console.log('click limit exceeded')
-    return;
-  } 
+$coin.addEventListener('click', (event) => {
+    if (clickBuffer.dailyClicks >= dailyLimit) {
+        console.log('click limit exceeded');
+        return;
+    }
 
+    const rect = $coin.getBoundingClientRect();
+    const offsetX = event.clientX - rect.left - rect.width / 2;
+    const offsetY = event.clientY - rect.top - rect.height / 2;
+    const DEG = 40;
 
-  const rect = $circle.getBoundingClientRect();
+    const tiltX = (offsetY / rect.height) * DEG;
+    const tiltY = (offsetX / rect.width) * -DEG;
 
-  const offsetX = event.clientX - rect.left - rect.width / 2;
-  const offsetY = event.clientY - rect.top - rect.height / 2;
+    $coin.style.setProperty('--tiltX', `${tiltX}deg`);
+    $coin.style.setProperty('--tiltY', `${tiltY}deg`);
 
-  const DEG = 40;
+    setTimeout(() => {
+        $coin.style.setProperty('--tiltX', '0deg');
+        $coin.style.setProperty('--tiltY', '0deg');
+    }, 100);
 
-  const tiltX = (offsetY / rect.height) * DEG;
-  const tiltY = (offsetX / rect.width) * -DEG;
+    const plusOne = document.createElement('div');
+    plusOne.classList.add('plus-one');
+    plusOne.textContent = '+1';
+    plusOne.style.left = `${event.clientX - rect.left}px`;
+    plusOne.style.top = `${event.clientY - rect.top}px`;
 
+    $coin.parentElement.appendChild(plusOne);
+    addOne();
 
-  $circle.style.setProperty('--tiltX', `${tiltX}deg`);
-  $circle.style.setProperty('--tiltY', `${tiltY}deg`);
+    setTimeout(() => {
+        plusOne.remove();
+    }, 2000);
 
-  setTimeout(() => {
-    $circle.style.setProperty('--tiltX', `0deg`);
-    $circle.style.setProperty('--tiltY', `0deg`);
-  }, 100);
+    updateCounter2();
 
-
-  const plusOne = document.createElement('div');
-
-  plusOne.classList.add('plus-one');
-  plusOne.textContent = '+1';
-  plusOne.style.left = `${event.clientX - rect.left}px`;
-  plusOne.style.top = `${event.clientY - rect.top}px`;
-
-  $circle.parentElement.appendChild(plusOne);
-
-  addOne();
-
-  setTimeout(() => {
-    plusOne.remove();
-  }, 2000);
-
-  updateCounter2();
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(sendBufferedData, 300);
 });
 
-//for score
-function fetchCounter() {
-  fetch(`https://bony-dot-timer.glitch.me/counter/${username}`)
-    .then(response => response.json())
-    .then(data => {
-      const score = data.counter || 0;
-      localStorage.setItem('score', score);
-      $score.textContent = score;
+function sendBufferedData() {
+    fetch('https://zircon-flax-garnet.glitch.me/update-all', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            userId,
+            counter: clickBuffer.score,
+            dailyClicks: clickBuffer.dailyClicks,
+            totalClicks: clickBuffer.totalClicks,
+        }),
     })
-    .catch(error => {
-      console.error('Error fetching counter:', error);
-    });
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('Data sent successfully:', data);
+        })
+        .catch((error) => {
+            console.error('Error sending buffered data:', error);
+        });
 }
 
-function updateCounter(score) {
-  fetch('https://bony-dot-timer.glitch.me/update', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ username, counter: score })
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Counter updated successfully:', data);
-  })
-  .catch(error => {
-    console.error('Error updating counter:', error);
-  });
-}
-
-//for today-amount(counter2)
-function fetchDailyClicks() {
-  fetch(`https://bony-dot-timer.glitch.me/daily-clicks/${username}`)
-    .then(response => response.json())
-    .then(data => {
-      const dailyClicks = data.dailyClicks || 0;
-      localStorage.setItem('dailyClicks', dailyClicks);
-      updateCounter2();
+function addNameToDatabase() {
+    fetch('https://zircon-flax-garnet.glitch.me/add-username', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            userId,
+            name: user?.username || 'unknown',
+        }),
     })
-    .catch(error => {
-      console.error('Error fetching daily clicks:', error);
+    .then((response) => response.json())
+    .then((data) => {
+        console.log('Username added successfully:', data);
+    })
+    .catch((error) => {
+        console.error('Error adding username:', error);
     });
-}
-
-function getDailyClicks() {
-  return Number(localStorage.getItem('dailyClicks')) || 0;
 }
 
 function setDailyClicks(clicks) {
-  localStorage.setItem('dailyClicks', clicks);
-  updateDailyClicksOnServer(clicks);
-}
-
-function updateDailyClicksOnServer(clicks) {
-  fetch('https://bony-dot-timer.glitch.me/update-daily-clicks', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ username, dailyClicks: clicks })
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Daily clicks updated successfully:', data);
-    })
-    .catch(error => {
-      console.error('Error updating daily clicks:', error);
-    });
-}
-
-function updateCounter2() {
-  $counter2.textContent = `${getDailyClicks()}/${dailyLimit}`;
-}
-
-//for totalscore
-function fetchTotalClicks() {
-  fetch(`https://bony-dot-timer.glitch.me/total-clicks/${username}`)
-    .then(response => response.json())
-    .then(data => {
-      const totalClicks = data.totalClicks || 0;
-      localStorage.setItem('totalClicks', totalClicks);
-      updateCounter2();
-    })
-    .catch(error => {
-      console.error('Error fetching daily clicks:', error);
-    });
-}
-
-function getTotalClicks() {
-  return Number(localStorage.getItem('totalClicks')) || 0;
+    localStorage.setItem('dailyClicks', clicks);
 }
 
 function setTotalClicks(clicks) {
-  localStorage.setItem('totalClicks', clicks);
-  updateTotalClicksOnServer(clicks);
+    localStorage.setItem('totalClicks', clicks);
 }
 
-function updateTotalClicksOnServer(clicks) {
-  fetch('https://bony-dot-timer.glitch.me/update-total-clicks', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ username, totalClicks: clicks })
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Total clicks updated successfully:', data);
-    })
-    .catch(error => {
-      console.error('Error updating total clicks:', error);
-    });
+function getDailyClicks() {
+    return Number(localStorage.getItem('dailyClicks')) || 0;
 }
 
+function getTotalClicks() {
+    return Number(localStorage.getItem('totalClicks')) || 0;
+}
+
+function updateCounter2() {
+    $counter2.textContent = `${clickBuffer.dailyClicks}/${dailyLimit}`;
+}
 
 document.addEventListener('DOMContentLoaded', start);

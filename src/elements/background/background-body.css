@@ -12,3 +12,11 @@ body {
     overflow-y: hidden;
     position: fixed;
 }
+
+@media (orientation: landscape) {
+    body {
+        position: relative; /* Отключаем фиксированное позиционирование */
+        overflow-y: auto; /* Включаем вертикальный скроллинг */
+        height: auto; /* Позволяем контенту расти по высоте */
+    }
+}
